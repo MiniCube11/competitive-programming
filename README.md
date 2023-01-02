@@ -1,4 +1,4 @@
-# Contents
+# Competitive Programming
 
 [C++ template](template.cpp)
 
