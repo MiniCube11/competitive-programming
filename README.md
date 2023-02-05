@@ -6,6 +6,8 @@
 
 [Binary Indexed Tree](ds/bit.cpp)
 
+[Segment Tree](ds/segtree.cpp)
+
 ## Graph Theory
 
 [BFS](graph/bfs.cpp)
