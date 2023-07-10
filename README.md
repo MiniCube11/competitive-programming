@@ -12,6 +12,8 @@
 
 [BFS](graph/bfs.cpp)
 
+[Dinic](graph/dinic.cpp)
+
 [Djikstra](graph/djikstra.cpp)
 
 [Topological Sort](graph/toposort.cpp)
