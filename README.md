@@ -16,4 +16,8 @@
 
 [Djikstra](graph/djikstra.cpp)
 
+[Kosaraju](graph/kosaraju.cpp)
+
+[LCA](graph/lca.cpp)
+
 [Topological Sort](graph/toposort.cpp)
