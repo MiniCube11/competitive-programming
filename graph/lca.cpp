@@ -2,58 +2,46 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 const int MN=2e5+5;
-int n, q, ct=0, first[MN], height[MN], walk[2*MN], st[8*MN];
+int n, q, up[MN][20], depth[MN];
 vector<int> adj[MN];
-
+ 
 void dfs(int u) {
-	first[u] = ++ct;
-	walk[ct] = u;
-	for (int v : adj[u]) {
-		height[v] = height[u] + 1;
-		dfs(v);
-		walk[++ct] = u;
-	}
+	for (int v : adj[u])
+		depth[v] = depth[u] + 1, dfs(v);
 }
-
-int getmin(int l, int r, int ql, int qr, int i) {
-	if (l <= ql && qr <= r)
-		return st[i];
-	int mid = (ql+qr)/2;
-	int lmin = -1, rmin = -1;
-	if (l <= mid) lmin = getmin(l, r, ql, mid, 2*i);
-	if (mid + 1 <= r) rmin = getmin(l, r, mid+1, qr, 2*i+1);
-	if (lmin == -1) return rmin;
-	if (rmin == -1) return lmin;
-	return (height[lmin] < height[rmin] ? lmin : rmin);
+ 
+int lift(int u, int k) {
+	for (int l=0; l<20; ++l)
+		if (k & (1<<l) && u != -1)
+			u = up[u][l];
+	return u;
 }
-
-void build(int ql, int qr, int i) {
-	if (ql == qr) {
-		st[i] = walk[ql];
-		return;
-	}
-	int mid=(ql+qr)/2;
-	build(ql, mid, 2*i);
-	build(mid+1, qr, 2*i+1);
-	st[i] = (height[st[2*i]] < height[st[2*i+1]] ? st[2*i] : st[2*i+1]);
-}
-
+ 
 int lca(int a, int b) {
-	if (first[a] > first[b]) swap(a, b);
-	return getmin(first[a], first[b], 1, 2*n, 1);
+	if (depth[a] > depth[b]) a = lift(a, depth[a] - depth[b]);
+	if (depth[b] > depth[a]) b = lift(b, depth[b] - depth[a]);
+	if (a == b) return a;
+	for (int l=19; l>=0; --l)
+		if (up[a][l] != up[b][l])
+			a = up[a][l], b = up[b][l];
+	return up[a][0];
 }
-
+ 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
 	cin >> n >> q;
+	memset(up, -1, sizeof up);
 	for (int i=2; i<=n; ++i) {
-		int b; cin >> b;
-		adj[b].push_back(i);
+		cin >> up[i][0];
+		adj[up[i][0]].push_back(i);
 	}
 	dfs(1);
-	build(1, 2*n, 1);
+	for (int l=0; l<20; ++l)
+		for (int i=1; i<=n; ++i)
+			if (up[i][l-1] != -1)
+				up[i][l] = up[up[i][l-1]][l-1];
 	while (q--) {
 		int a, b; cin >> a >> b;
 		cout << lca(a, b) << '\n';
