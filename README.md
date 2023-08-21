@@ -16,9 +16,9 @@
 
 [DFS](graph/dfs.cpp)
 
-[Dinic](graph/dinic.cpp)
+[Dijkstra](graph/dijkstra.cpp)
 
-[Djikstra](graph/djikstra.cpp)
+[Dinic](graph/dinic.cpp)
 
 [Floyd Warshall](graph/floydwarshall.cpp)
 
